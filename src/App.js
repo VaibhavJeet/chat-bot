@@ -2,14 +2,12 @@ import "./App.css";
 import image from "./img/bot_image.png";
 import { useState, useRef, useMemo  } from "react";
 import { IconContext } from "react-icons";
-import { BsChevronDown, BsChatLeftFill} from 'react-icons/bs';
+import { BsChevronDown, BsChatLeftFill, BsChatLeft} from 'react-icons/bs';
 import { BiMicrophoneOff, BiMicrophone } from 'react-icons/bi';
-import {RiSendPlaneFill } from 'react-icons/ri'
+import {RiSendPlaneFill} from 'react-icons/ri'
 
 function App() {
-  // function TodoList({ todos, tab, theme }) {
-  //   const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
-  // }
+  
   const humanMessage = useRef();
   const botmessage = useRef();
   const input = useRef();
@@ -32,6 +30,7 @@ function App() {
     document.querySelector('.chat-bot-first-screen-chat-bot-wrapper').style.display = "none";
   }
 
+  const [chatIcon, setchatIcon] = useState(false);
   const [microphoneIcon, setmicrophoneIcon] = useState(false);
   const minimizeHandle = () => {
     console.log("minimize clicked")
@@ -77,7 +76,7 @@ function App() {
     if (isActive === true) {
       //if the bot is active
       status.innerHTML = "Active";
-      status.style.color = "green";
+      status.style.color = "#ff9c34";
     } else {
       status.innerHTML = "Not Active";
       status.style.color = "red";
@@ -231,9 +230,9 @@ function App() {
   };
   return (
     <div className="Chat-bot-app" onLoad={checkStatus}>
-      <div className={chatScreen === true ? "chat-bot-icon-hide " : "chat-bot-icon"} onClick={() => chatScreentoggle()}>
+      <div className={chatScreen === true ? "chat-bot-icon-hide " : "chat-bot-icon"} onClick={() => chatScreentoggle()} onPointerEnter={() => setchatIcon(!chatIcon)} onPointerLeave={() => setchatIcon(!chatIcon)}>
       <IconContext.Provider value={{ className: 'chat-react-icons' }}>
-        <BsChatLeftFill />
+        {chatIcon ? <BsChatLeft /> : <BsChatLeftFill /> }
       </IconContext.Provider>
       </div>
       <div className={chatScreen === false ? "chat-bot-first-screen-chat-bot-wrapper-hide" : "chat-bot-first-screen-chat-bot-wrapper"}>
@@ -267,16 +266,8 @@ function App() {
               <div className="status">Active</div>
             </div>
             <div className="chat-bot-drop-down">
-                <div id="menu-wrap">
-                  <input type="checkbox" className="toggler" />
+                <div id="menu-wrap" onClick={()=> minimizeHandle()}>
                   <BsChevronDown/>
-                  <div className="menu">
-                    <div>
-                      <ul>
-                        <li><a href="#" className="link" onClick={()=> minimizeHandle()}>Minimize</a></li>
-                      </ul>
-                    </div>
-                  </div>
                 </div>
             </div>
           </div>
