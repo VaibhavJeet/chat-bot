@@ -78,12 +78,9 @@ useEffect(() => {
 
 const API_KEY = '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';
 
-const callBot = async (msgFrmUser, callback) => {
+const callBot = async (msgFrmUser) => {
   try {
-    // const response = ["Fifteen contacts have enrolled in the Antwalk team through Flocard, out of which eight contacts are verified and seven contacts are not verified."];
     const question = msgFrmUser;
-    // const instructions =
-    //   "You are AI Assistant. Answer the question as truthfully as possible using the provided text, and if the answer is not contained within the text below, say \"Sorry did not understand, please try again.\"";
     const model = "text-davinci-003";
     const modelResponse = await axios.post(
       "https://api.openai.com/v1/engines/" + model + "/completions",
@@ -103,14 +100,14 @@ const callBot = async (msgFrmUser, callback) => {
       }
     );
     const chatbotResponse = modelResponse.data.choices[0].text;
-    callback(chatbotResponse); // call the callback function with chatbot response
+    return chatbotResponse;
   } catch (error) {
     console.error(error);
+    return "Sorry, there was an error with the chatbot.";
   }
 };
 
-
-const handleInput = () => {
+const handleInput = async () => {
   const inputRef = input.current;
   const { current: getHumanMessage } = humanMessage;
   const { current: getBotMessage } = botmessage;
@@ -121,7 +118,12 @@ const handleInput = () => {
   if (getHumanMessage) {
     // if the input contains words
     getBotMessage.innerText = "Typing...";
-    callBot(inputValue); // call the AI chatbot function
+    const botMessageText = await callBot(inputValue); // call the AI chatbot function and wait for response
+    const botMessageEl = document.createElement("div");
+    botMessageEl.className = "bot-message";
+    botMessageEl.innerText = botMessageText;
+    chatMessagesRef.current.appendChild(botMessageEl);
+    chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     inputRef.value = ""; // clear the input
   } else {
     getBotMessage.innerText = "Typing...";
@@ -144,8 +146,6 @@ const handleInput = () => {
     chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     inputRef.value = "";
   }
-
-
 };
 
 
