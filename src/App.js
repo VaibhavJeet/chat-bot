@@ -3,7 +3,8 @@ import image from "./img/bot_image.png";
 import { useState, useRef, useMemo  } from "react";
 import { IconContext } from "react-icons";
 import { BsChevronDown, BsChatLeftFill} from 'react-icons/bs';
-import { BiMicrophoneOff, BiMicrophone } from 'react-icons/bi'
+import { BiMicrophoneOff, BiMicrophone } from 'react-icons/bi';
+import {RiSendPlaneFill } from 'react-icons/ri'
 
 function App() {
   // function TodoList({ todos, tab, theme }) {
@@ -32,7 +33,10 @@ function App() {
   }
 
   const [microphoneIcon, setmicrophoneIcon] = useState(false);
-
+  const minimizeHandle = () => {
+    console.log("minimize clicked")
+    window.location.reload(true);
+  }
 
   const days = [
     "Sunday",
@@ -269,7 +273,7 @@ function App() {
                   <div className="menu">
                     <div>
                       <ul>
-                        <li><a href="#" className="link">Minimize</a></li>
+                        <li><a href="#" className="link" onClick={()=> minimizeHandle()}>Minimize</a></li>
                       </ul>
                     </div>
                   </div>
@@ -309,7 +313,7 @@ function App() {
               </div>
               <div className="btn">
                 <button onClick={() => handleInput()}>
-                  <i className="fas fa-paper-plane"></i>
+                  <RiSendPlaneFill/>
                 </button>
               </div>
             </div>

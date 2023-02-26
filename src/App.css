@@ -253,6 +253,7 @@
 .chat-bot-wrapper .content .header .chat-bot-drop-down #menu-wrap .toggler:checked ~ .menu {
   opacity: 1;
   visibility: visible;
+  z-index: 10000;
   width: 150px;
   height: 30px;
   -webkit-transition: 0.5s;
@@ -383,7 +384,7 @@
   color: #FFF;
   font-weight: 600;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 .chat-bot-wrapper .content .bottom .btm .btn button i{
   margin: 5px;
