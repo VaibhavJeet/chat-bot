@@ -76,6 +76,40 @@ useEffect(() => {
   botmessage.current.innerHTML = botHtml;
 }, []);
 
+const API_KEY = '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';
+
+const callBot = async (msgFrmUser, callback) => {
+  try {
+    // const response = ["Fifteen contacts have enrolled in the Antwalk team through Flocard, out of which eight contacts are verified and seven contacts are not verified."];
+    const question = msgFrmUser;
+    // const instructions =
+    //   "You are AI Assistant. Answer the question as truthfully as possible using the provided text, and if the answer is not contained within the text below, say \"Sorry did not understand, please try again.\"";
+    const model = "text-davinci-003";
+    const modelResponse = await axios.post(
+      "https://api.openai.com/v1/engines/" + model + "/completions",
+      {
+        prompt: question + "?",
+        temperature: 0,
+        max_tokens: 300,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      }
+    );
+    const chatbotResponse = modelResponse.data.choices[0].text;
+    callback(chatbotResponse); // call the callback function with chatbot response
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 const handleInput = () => {
   const inputRef = input.current;
   const { current: getHumanMessage } = humanMessage;
@@ -84,18 +118,11 @@ const handleInput = () => {
   const badwords = /hi|fuck|bad|stupid|useless|bitch|crazy|nonsense/i;
   const inputValue = inputRef.value;
 
-  if (badwords.test(inputValue)) {
+  if (getHumanMessage) {
     // if the input contains words
     getBotMessage.innerText = "Typing...";
-    setTimeout(() => {
-      const botMessageText = "Hello";
-      const botMessageEl = document.createElement("div");
-      botMessageEl.className = "bot-message";
-      botMessageEl.innerText = botMessageText;
-      chatMessagesRef.current.appendChild(botMessageEl);
-      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-      inputRef.value = ""; // clear the input
-    }, 2000);
+    callBot(inputValue); // call the AI chatbot function
+    inputRef.value = ""; // clear the input
   } else {
     getBotMessage.innerText = "Typing...";
     setTimeout(() => {
@@ -115,11 +142,9 @@ const handleInput = () => {
     humanMessageEl.innerText = humanMessageText;
     chatMessagesRef.current.appendChild(humanMessageEl);
     chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-    
-    // clear the input
     inputRef.value = "";
   }
-  // const humanMessageText = inputValue;
+
 
 };
 
@@ -205,7 +230,11 @@ return (
         <div className="bottom">
           <div className="btm">
             <div className="input">
-              <input type="text" id="input" placeholder="Enter your message" ref={input} />
+              <input type="text" id="input" placeholder="Enter your message" ref={input}  onKeyPress={(event) => {
+    if (event.key === "Enter") {
+      handleInput();
+    }
+  }}/>
             </div>
             <div className="mikebtn">
               <button onClick={() => setmicrophoneIcon(!microphoneIcon)}>
