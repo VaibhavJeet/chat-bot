@@ -197,10 +197,19 @@
   position: relative;
   height: 65%;
 }
+
+
 .chat-bot-wrapper .content .main .main_content .messages{
   display: flex;
   flex-direction: column;
   padding: 5px;
+  height: 300px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chat-bot-wrapper .content .main .main_content .messages::-webkit-scrollbar {
+  display: none;
 }
 .chat-bot-wrapper .content .main .main_content .messages .bot-message{
   width: 40%;
