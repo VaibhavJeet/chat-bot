@@ -193,7 +193,7 @@
 }
 
 .chat-bot-wrapper .content .main{
-  padding: 30px 0 0;
+  padding: 10px 0 0;
   position: relative;
   height: 65%;
 }
@@ -212,17 +212,18 @@
   display: none;
 }
 .chat-bot-wrapper .content .main .main_content .messages .bot-message{
-  width: 40%;
-  padding: 15px;
+  width:40%;
+  padding: 5px 15px;
   text-align: center;
   background: #EDECED;
   font-style: 1.1em;
   border-radius: 10px;
   margin: 5px;
 }
+
 .chat-bot-wrapper .content .main .main_content .messages .human-message{
   width: 40%;
-  padding: 15px;
+  padding: 5px 15px;
   text-align: center;
   background: #ff9c34;
   color: #EDECED;
