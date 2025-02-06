@@ -139,7 +139,7 @@ function App() {
     botmessage.current.innerHTML = botHtml;
   }, []);
 
-  const API_KEY = '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';
+  const API_KEY = '';
 
   const callBot = async (msgFrmUser, callback) => {
     try {
